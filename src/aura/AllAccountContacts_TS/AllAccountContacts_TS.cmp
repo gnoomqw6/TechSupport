@@ -1,0 +1,12 @@
+<aura:component controller="Contacts_TS_Controller">
+	<aura:attribute name="accountId" type="String" />
+	<aura:attribute name="contacts" type="Contact[]" description="all contacts for this account" />
+	
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+	<aura:iteration items="{!v.contacts}" var="con">
+		<div>
+			<ui:outputText value="{!con.LastName}" />
+		</div>
+	</aura:iteration>
+</aura:component>
