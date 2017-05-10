@@ -1,0 +1,69 @@
+<aura:component controller="Requests_TS_Controller" implements="force:appHostable">
+	<aura:attribute name="isPhone" type="Boolean" default="false" description="is user using salesforce1" />
+	<aura:attribute name="notStarted" type="Request__c[]" description="not started requests" />
+	<aura:attribute name="inProgress" type="Request__c[]" description="requests in progress" />
+	<aura:attribute name="waiting" type="Request__c[]" description="waiting requests" />
+	<aura:attribute name="notPayed" type="Request__c[]" description="not payed requests" />
+	
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+	
+	<!-- if user's device is PHONE or TABLET -->
+	<aura:if isTrue="{!v.isPhone}">
+		Телефон
+	
+	
+	<!-- if user's device is DESKTOP -->
+		<aura:set attribute="else">
+			
+			<!-- area for closed requests (requests not visible) -->
+            <center class="slds-file-selector__dropzone slds-p-vertical--large">
+            	<span>ПЕРЕТЯНИТЕ СЮДА, ЧТОБЫ ЗАКРЫТЬ ЗАЯВКУ</span>
+            </center>
+            
+            <lightning:layout horizontalAlign="space">
+            	
+            	<lightning:layoutitem >
+            		<div class="slds-grid">
+            			<div class="slds-size--1-of-1 slds-tet-align--center slds-p-vertical--medium">
+            				<h3>
+            					ОТКРЫТЫЕ
+            				</h3>
+            			</div>
+            		</div>
+            	</lightning:layoutitem>
+            	
+            	<lightning:layoutitem >
+            		<div class="slds-grid">
+            			<div class="slds-size--1-of-1 slds-tet-align--center slds-p-vertical--medium">
+            				<h3>
+            					В ПРОЦЕССЕ
+            				</h3>
+            			</div>
+            		</div>
+            	</lightning:layoutitem>
+            	
+            	<lightning:layoutitem >
+            		<div class="slds-grid">
+            			<div class="slds-size--1-of-1 slds-tet-align--center slds-p-vertical--medium">
+            				<h3>
+            					ОЖИДАЮЩИЕ
+            				</h3>
+            			</div>
+            		</div>
+            	</lightning:layoutitem>
+            	
+            	<lightning:layoutitem >
+            		<div class="slds-grid">
+            			<div class="slds-size--1-of-1 slds-tet-align--center slds-p-vertical--medium">
+            				<h3>
+            					НЕ ОПЛАЧЕННЫЕ
+            				</h3>
+            			</div>
+            		</div>
+            	</lightning:layoutitem>
+            
+            </lightning:layout>
+			
+		</aura:set>
+	</aura:if>
+</aura:component>

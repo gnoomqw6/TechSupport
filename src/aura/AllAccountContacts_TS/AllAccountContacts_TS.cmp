@@ -1,12 +1,212 @@
 <aura:component controller="Contacts_TS_Controller">
 	<aura:attribute name="accountId" type="String" />
-	<aura:attribute name="contacts" type="Contact[]" description="all contacts for this account" />
+	<aura:attribute name="highPriorContacts" type="Contact[]" description="with high prior requests" />
+	<aura:attribute name="midPriorContacts" type="Contact[]" description="with mid prior requests" />
+	<aura:attribute name="lowPriorContacts" type="Contact[]" description="with low prior requests" />
+	<aura:attribute name="noPriorContacts" type="Contact[]" description="without requests" />
 	
 	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
-	<aura:iteration items="{!v.contacts}" var="con">
-		<div>
-			<ui:outputText value="{!con.LastName}" />
-		</div>
-	</aura:iteration>
+	<lightning:layout horizontalAlign="space">
+		
+		<!-- there will be 4 layout items, so comments in this block relate to others too.
+			 one layout item for each contact priority -->
+		<lightning:layoutItem padding="around-small">
+			
+			<!-- walk through certain list of contacts (with certain priority) 
+				and create a slds card for each. There is only one difference between
+				layout items - it is card background color -->
+			<aura:iteration items="{!v.highPriorContacts}" var="contact">
+				
+				<article class="slds-card highPriorCard">
+					<!-- in card header will be shown icon and contact's last name 
+						(link to contact view page) -->
+					<div class="slds-card__header">
+						<header class="slds-media slds-media--center slds-has-flexi-truncate">
+      						<div class="slds-media__figure">
+        						<span class="slds-icon">
+        							<img class="contactIcon" src="http://findicons.com/files/icons/1786/oxygen_refit/128/stock_contact_list.png" />
+        						</span>
+      						</div>
+      						<div class="slds-media__body">
+						        <h2>
+						          	<a href="{!'/one/one.app?#/sObject/'+ contact.Id + '/view'}" class="slds-card__header-link slds-truncate">
+						            	<span class="slds-text-heading--small"><ui:outputText value="{!contact.LastName}"/></span>
+						          	</a>
+						        </h2>
+      						</div>
+    					</header>
+					</div>
+					
+					<!-- in card body we will show mobile if contact has it
+						(else - phone, else - none) and teamviewer ID (if contact has it) -->
+					<div class="slds-card__body">
+						<div class="slds-tile__detail slds-text-body--small">
+				            <dl class="slds-list--horizontal slds-wrap slds-p-left--small">
+				            	<aura:if isTrue="{!and(null != contact.MobilePhone, contact.MobilePhone.length != 0)}">
+				            		<dt class="slds-item--label slds-text-color--weak">Мобильный:</dt>
+					            	<dd class="slds-item--detail"><ui:outputText value="{!contact.MobilePhone}"/></dd>
+					            	<aura:set attribute="else">
+					            		<aura:if isTrue="{!and(null != contact.Phone, contact.Phone.length != 0)}">
+					            			<dt class="slds-item--label slds-text-color--weak">Рабочий:</dt>
+					            			<dd class="slds-item--detail"><ui:outputText value="{!contact.Phone}"/></dd>
+					            		</aura:if>
+					            	</aura:set>
+				            	</aura:if>
+				            	<aura:if isTrue="{!and(null != contact.Teamviewer_ID__c, contact.Teamviewer_ID__c.length != 0)}">
+				            		<dt class="slds-item--label slds-text-color--weak">TeamViewer:</dt>
+					            	<dd class="slds-item--detail"><ui:outputText value="{!contact.Teamviewer_ID__c}"/></dd>
+				            	</aura:if>
+				            </dl>
+          				</div>
+					</div>
+					
+				</article>
+			</aura:iteration>
+		</lightning:layoutItem>
+		
+		<lightning:layoutItem padding="around-small">
+			
+			<aura:iteration items="{!v.midPriorContacts}" var="contact">
+				
+				<article class="slds-card midPriorCard">
+					
+					<div class="slds-card__header">
+						<header class="slds-media slds-media--center slds-has-flexi-truncate">
+      						<div class="slds-media__figure">
+        						<span class="slds-icon">
+        							<img class="contactIcon" src="http://findicons.com/files/icons/1786/oxygen_refit/128/stock_contact_list.png" />
+        						</span>
+      						</div>
+      						<div class="slds-media__body">
+						        <h2>
+						          	<a href="{!'/one/one.app?#/sObject/'+ contact.Id + '/view'}" class="slds-card__header-link slds-truncate">
+						            	<span class="slds-text-heading--small"><ui:outputText value="{!contact.LastName}"/></span>
+						          	</a>
+						        </h2>
+      						</div>
+    					</header>
+					</div>
+					
+					<div class="slds-card__body">
+						<div class="slds-tile__detail slds-text-body--small">
+				            <dl class="slds-list--horizontal slds-wrap slds-p-left--small">
+				            	<aura:if isTrue="{!and(null != contact.MobilePhone, contact.MobilePhone.length != 0)}">
+				            		<dt class="slds-item--label slds-text-color--weak">Мобильный:</dt>
+					            	<dd class="slds-item--detail"><ui:outputText value="{!contact.MobilePhone}"/></dd>
+					            	<aura:set attribute="else">
+					            		<aura:if isTrue="{!and(null != contact.Phone, contact.Phone.length != 0)}">
+					            			<dt class="slds-item--label slds-text-color--weak">Рабочий:</dt>
+					            			<dd class="slds-item--detail"><ui:outputText value="{!contact.Phone}"/></dd>
+					            		</aura:if>
+					            	</aura:set>
+				            	</aura:if>
+				            	<aura:if isTrue="{!and(null != contact.Teamviewer_ID__c, contact.Teamviewer_ID__c.length != 0)}">
+				            		<dt class="slds-item--label slds-text-color--weak">TeamViewer:</dt>
+					            	<dd class="slds-item--detail"><ui:outputText value="{!contact.Teamviewer_ID__c}"/></dd>
+				            	</aura:if>
+				            </dl>
+          				</div>
+					</div>
+				
+				</article>
+			</aura:iteration>
+		</lightning:layoutItem>
+		
+		<lightning:layoutItem padding="around-small">
+			
+			<aura:iteration items="{!v.lowPriorContacts}" var="contact">
+				
+				<article class="slds-card lowPriorCard">
+					
+					<div class="slds-card__header">
+						<header class="slds-media slds-media--center slds-has-flexi-truncate">
+      						<div class="slds-media__figure">
+        						<span class="slds-icon">
+        							<img class="contactIcon" src="http://findicons.com/files/icons/1786/oxygen_refit/128/stock_contact_list.png" />
+        						</span>
+      						</div>
+      						<div class="slds-media__body">
+						        <h2>
+						          	<a href="{!'/one/one.app?#/sObject/'+ contact.Id + '/view'}" class="slds-card__header-link slds-truncate">
+						            	<span class="slds-text-heading--small"><ui:outputText value="{!contact.LastName}"/></span>
+						          	</a>
+						        </h2>
+      						</div>
+    					</header>
+					</div>
+					
+					<div class="slds-card__body">
+						<div class="slds-tile__detail slds-text-body--small">
+				            <dl class="slds-list--horizontal slds-wrap slds-p-left--small">
+				            	<aura:if isTrue="{!and(null != contact.MobilePhone, contact.MobilePhone.length != 0)}">
+				            		<dt class="slds-item--label slds-text-color--weak">Мобильный:</dt>
+					            	<dd class="slds-item--detail"><ui:outputText value="{!contact.MobilePhone}"/></dd>
+					            	<aura:set attribute="else">
+					            		<aura:if isTrue="{!and(null != contact.Phone, contact.Phone.length != 0)}">
+					            			<dt class="slds-item--label slds-text-color--weak">Рабочий:</dt>
+					            			<dd class="slds-item--detail"><ui:outputText value="{!contact.Phone}"/></dd>
+					            		</aura:if>
+					            	</aura:set>
+				            	</aura:if>
+				            	<aura:if isTrue="{!and(null != contact.Teamviewer_ID__c, contact.Teamviewer_ID__c.length != 0)}">
+				            		<dt class="slds-item--label slds-text-color--weak">TeamViewer:</dt>
+					            	<dd class="slds-item--detail"><ui:outputText value="{!contact.Teamviewer_ID__c}"/></dd>
+				            	</aura:if>
+				            </dl>
+          				</div>
+					</div>
+					
+				</article>
+			</aura:iteration>
+		</lightning:layoutItem>
+		
+		<lightning:layoutItem padding="around-small">
+			
+			<aura:iteration items="{!v.noPriorContacts}" var="contact">
+				
+				<article class="slds-card">
+					
+					<div class="slds-card__header">
+						<header class="slds-media slds-media--center slds-has-flexi-truncate">
+      						<div class="slds-media__figure">
+        						<span class="slds-icon">
+        							<img class="contactIcon" src="http://findicons.com/files/icons/1786/oxygen_refit/128/stock_contact_list.png" />
+        						</span>
+      						</div>
+      						<div class="slds-media__body">
+						        <h2>
+						          	<a href="{!'/one/one.app?#/sObject/'+ contact.Id + '/view'}" class="slds-card__header-link slds-truncate">
+						            	<span class="slds-text-heading--small"><ui:outputText value="{!contact.LastName}"/></span>
+						          	</a>
+						        </h2>
+      						</div>
+    					</header>
+					</div>
+					
+					<div class="slds-card__body">
+						<div class="slds-tile__detail slds-text-body--small">
+				            <dl class="slds-list--horizontal slds-wrap slds-p-left--small">
+				            	<aura:if isTrue="{!and(null != contact.MobilePhone, contact.MobilePhone.length != 0)}">
+				            		<dt class="slds-item--label slds-text-color--weak">Мобильный:</dt>
+					            	<dd class="slds-item--detail"><ui:outputText value="{!contact.MobilePhone}"/></dd>
+					            	<aura:set attribute="else">
+					            		<aura:if isTrue="{!and(null != contact.Phone, contact.Phone.length != 0)}">
+					            			<dt class="slds-item--label slds-text-color--weak">Рабочий:</dt>
+					            			<dd class="slds-item--detail"><ui:outputText value="{!contact.Phone}"/></dd>
+					            		</aura:if>
+					            	</aura:set>
+				            	</aura:if>
+				            	<aura:if isTrue="{!and(null != contact.Teamviewer_ID__c, contact.Teamviewer_ID__c.length != 0)}">
+				            		<dt class="slds-item--label slds-text-color--weak">TeamViewer:</dt>
+					            	<dd class="slds-item--detail"><ui:outputText value="{!contact.Teamviewer_ID__c}"/></dd>
+				            	</aura:if>
+				            </dl>
+          				</div>
+					</div>
+					
+				</article>
+			</aura:iteration>
+		</lightning:layoutItem>
+	</lightning:layout>
 </aura:component>

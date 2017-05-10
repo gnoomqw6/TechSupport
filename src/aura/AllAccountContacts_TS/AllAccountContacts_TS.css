@@ -1,2 +1,20 @@
 .THIS {
+	cursor: default;
+}
+
+.THIS .contactIcon {
+	width: 50px;
+	height: 50px;
+}
+
+.THIS .highPriorCard {
+	background-color: #ff8484;
+}
+
+.THIS .midPriorCard {
+	background-color: #ffcb83;
+}
+
+.THIS .lowPriorCard {
+	background-color: #c7ff83;
 }

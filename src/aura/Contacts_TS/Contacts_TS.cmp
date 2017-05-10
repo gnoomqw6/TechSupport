@@ -1,12 +1,16 @@
 <aura:component controller="Contacts_TS_Controller" implements="force:appHostable">
 	<aura:attribute name="isPhone" type="Boolean" default="false" description="is user using salesforce1" />
 	<aura:attribute name="accounts" type="Account[]" description="all org accounts" />
-	<aura:attribute name="testAcc" type="Account" />
 	
 	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 	
+	<!-- if user's device is PHONE or TABLET -->
 	<aura:if isTrue="{!v.isPhone}">
 		Телефон
+	
+	
+		
+	<!-- if user's device is DESKTOP -->
 		<aura:set attribute="else">
 			<lightning:tabSet >
 				<aura:iteration items="{!v.accounts}" var="acc">

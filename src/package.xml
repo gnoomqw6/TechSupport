@@ -3,10 +3,12 @@
     <types>
         <members>AllAccountContacts_TS</members>
         <members>Contacts_TS</members>
+        <members>Requests_TS</members>
         <name>AuraDefinitionBundle</name>
     </types>
     <types>
         <members>Contacts_TS_Controller</members>
+        <members>Requests_TS_Controller</members>
         <name>ApexClass</name>
     </types>
     <version>38.0</version>
